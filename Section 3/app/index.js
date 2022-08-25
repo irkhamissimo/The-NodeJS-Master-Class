@@ -9,6 +9,16 @@ const url = require('url');
 const StringDecoder = require('string_decoder').StringDecoder;
 const config = require('./config');
 const fs = require('fs');
+_data = require('./lib/data');
+
+// TESTING
+// _data.create('files', 'test', { 'foo': 'bar' }, function (err) {
+//   if (!err) {
+//     console.log('Success');
+//   } else {
+//     console.log('Error', err);
+//   }
+// });
 
 // instantiate http server
 const httpServer = http.createServer(function (req, res) {
