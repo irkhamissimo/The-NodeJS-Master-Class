@@ -20,6 +20,14 @@ _data = require('./lib/data');
 //   }
 // });
 
+// _data.read('files', 'test2', function (err, data) {
+//   if (!err && data) {
+//     console.log('this was the error: ', err, 'and this is the data: ', data);
+//   } else {
+//     console.log(err);
+//   }
+// });
+
 // instantiate http server
 const httpServer = http.createServer(function (req, res) {
   unifiedServer(req, res);
