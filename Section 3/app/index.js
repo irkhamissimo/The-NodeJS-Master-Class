@@ -28,6 +28,14 @@ _data = require('./lib/data');
 //   }
 // });
 
+// _data.update('users', 'test1', { name: 'oke' }, function (err) {
+//   if (!err) {
+//     console.log('Success');
+//   } else {
+//     console.log('Error', err);
+//   }
+// });
+
 // instantiate http server
 const httpServer = http.createServer(function (req, res) {
   unifiedServer(req, res);
