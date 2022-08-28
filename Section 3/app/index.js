@@ -22,7 +22,7 @@ const helpers = require('./lib/helpers');
 //   }
 // });
 
-// _data.read('files', 'test2', function (err, data) {
+// _data.read('users', '6661234567', function (err, data) {
 //   if (!err && data) {
 //     console.log('this was the error: ', err, 'and this is the data: ', data);
 //   } else {
