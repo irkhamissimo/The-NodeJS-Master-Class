@@ -22,8 +22,12 @@ handlers.notFound = function(data,callback){
 
 // Users
 handlers.users = function(data,callback){
+  // console.log(data);
   var acceptableMethods = ['post','get','put','delete'];
+  
   if(acceptableMethods.indexOf(data.method) > -1){
+    // handlers._users[data.method];
+    console.log(callback);
     handlers._users[data.method](data,callback);
   } else {
     callback(405);
@@ -90,6 +94,8 @@ handlers._users.post = function(data,callback){
 // Optional data: none
 // @TODO Only let an authenticated user access their object. Dont let them access anyone elses.
 handlers._users.get = function(data,callback){
+  //  console.log(handlers._users[data.method](data.callback))
+  // console.log(data.method);
   // Check that phone number is valid
   var phone = typeof(data.queryStringObject.phone) == 'string' && data.queryStringObject.phone.trim().length == 10 ? data.queryStringObject.phone.trim() : false;
   if(phone){
