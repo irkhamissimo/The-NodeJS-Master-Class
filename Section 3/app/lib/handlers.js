@@ -251,14 +251,14 @@ handlers._tokens.post = function (data, callback) {
 handlers._tokens.get = function (data, callback) {
   var id =
     typeof data.queryStringObject.id == 'string' &&
-    data.queryStringObject.id.trim().length > 0
+    data.queryStringObject.id.trim().length == 20
       ? data.queryStringObject.id.trim()
       : false;
 
   if (id) {
-    _data.read('tokens', id, function (err, data) {
-      if (!err && data) {
-        callback(200, data);
+    _data.read('tokens', id, function (err, tokenData) {
+      if (!err && tokenData) {
+        callback(200, tokenData);
       } else {
         callback(404);
       }
@@ -268,7 +268,38 @@ handlers._tokens.get = function (data, callback) {
   }
 };
 
-handlers._tokens.put = function(data,callback) {
-  
-}
+handlers._tokens.put = function (data, callback) {
+  var id =
+    typeof data.payload.id == 'string' && data.payload.id.trim().length == 20
+      ? data.payload.id.trim()
+      : false;
+  var extend =
+    typeof data.payload.extend == 'boolean' && data.payload.extend == true
+      ? true
+      : false;
+
+  if (id && extend) {
+    _data.read('tokens', id, function (err, tokenData) {
+      if (!err && tokenData) {
+        if (tokenData.expires > Date.now()) {
+          tokenData.expires = Date.now() + 1000 * 60 * 60;
+
+          _data.update('tokens', id, tokenData, function (err) {
+            if (!err) {
+              callback(200);
+            } else {
+              callback(500, { Error: 'cannot update token' });
+            }
+          });
+        } else {
+          callback(400, { Error: 'That token might has been expired' });
+        }
+      } else {
+        callback(400, { Error: 'That token does not exist' });
+      }
+    });
+  } else {
+    callback(400, { Error: 'Missing required fields' });
+  }
+};
 module.exports = handlers;
