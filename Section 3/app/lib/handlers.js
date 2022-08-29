@@ -302,4 +302,32 @@ handlers._tokens.put = function (data, callback) {
     callback(400, { Error: 'Missing required fields' });
   }
 };
+
+handlers._tokens.delete = function(data,callback) {
+  var id =
+    typeof data.queryStringObject.id == 'string' &&
+    data.queryStringObject.id.trim().length == 20
+      ? data.queryStringObject.id.trim()
+      : false;
+
+  if (id) {
+    _data.read('tokens', id, function (err, data) {
+      if (!err && data) {
+        _data.delete('tokens', id, function (err) {
+          if (!err) {
+            callback(200);
+          } else {
+            callback(500, { Error: 'Could not delete the token' });
+          }
+        });
+      } else {
+        callback(400, { Error: 'Could not find the specified token' });
+      }
+    });
+  } else {
+    callback(400, { Error: 'Missing required field' });
+  }
+
+
+}
 module.exports = handlers;
